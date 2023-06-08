@@ -1,20 +1,57 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-menu contentId="main-content">
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-button *ngIf="!this.auth.currentUser" expand="full" (click)="kayit()"
+      >Kayıt ol</ion-button
+    >
+    <ion-button *ngIf="!this.auth.currentUser" expand="full" (click)="giris()"
+      >Giriş yap</ion-button
+    >
+    <ion-button *ngIf="this.auth.currentUser" expand="full" (click)="cikis()"
+      >Çıkış yap</ion-button
+    >
+  </ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>IonicFirebase</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item *ngFor="let kitap of kitaplar">
+        <ion-label>
+          {{kitap.kitapIsim}} - {{kitap.kitapYazar}} - {{kitap.kitapSayfa}}
+        </ion-label>
+        <ion-button *ngIf="this.auth.currentUser" (click)="sil(kitap.id)"
+          >sil</ion-button
+        >
+        <ion-button *ngIf="this.auth.currentUser" (click)="guncelle(kitap)"
+          >güncelle</ion-button
+        >
+      </ion-item>
+    </ion-list>
+    <ion-label *ngIf="this.kitaplar.length == 0">
+      Hiç kitap eklenmedi.
+    </ion-label>
+    <br />
+    <ion-label *ngIf="!this.auth.currentUser">
+      Kitap eklemek için giriş yapın.
+    </ion-label>
+    <ion-button *ngIf="this.auth.currentUser" (click)="yeniKayit()" expand="full"
+      >Yeni Kayıt</ion-button
+    >
+    <ion-button *ngIf="this.kitaplar.length > 0" expand="full" (click)="sirala()"
+      >Sırala</ion-button
+    >
+  </ion-content>
+</div>
